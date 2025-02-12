@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import requests
 import numpy as np
 import joblib
 
@@ -13,7 +14,23 @@ CORS(app)
 #My API endpoints
 @app.route('/', methods=['GET'])
 def hello():
-    return {'saludo':'Holaaaa'}
+    headers = {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+        'Content-Type': 'application/json'
+    }
+
+    try:
+        response = requests.get('http://php-app:8080/', headers=headers)
+
+        if response.status_code == 200:
+            data = response.json()
+            return jsonify(data)
+        else:
+            return jsonify({'error': 'Hay un error', 'status_code': response.status_code}), 500
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 @app.route('/classify', methods=['POST'])
 def classify():
@@ -32,4 +49,4 @@ def classify():
 
 
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=3000, debug=True)
