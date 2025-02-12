@@ -1,23 +1,29 @@
 version: "3.8"
 services:
+  web:
+    image: nginx:alpine
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    ports:
+      - 5500:5500
   python-api:
     build:
-      context: ./ML  # Ruta donde se encuentra el Dockerfile para Python
+      context: ./ML # Ruta donde se encuentra el Dockerfile para Python
     ports:
-      - "5000:5000"          # Mapea el puerto del host al contenedor
+      - "5000:5000" # Mapea el puerto del host al contenedor
     depends_on:
-      - php-app              # Define que este servicio depende del de PHP
+      - php-app # Define que este servicio depende del de PHP
     networks:
-      - app-network          # Ambos servicios estarán en la misma red
+      - app-network # Ambos servicios estarán en la misma red
 
   php-app:
     build:
-      context: ./api   # Ruta donde se encuentra el Dockerfile para PHP
+      context: ./api # Ruta donde se encuentra el Dockerfile para PHP
     ports:
-      - "8080:8080"          # Mapea el puerto del host al contenedor
+      - "8080:8080" # Mapea el puerto del host al contenedor
     networks:
       - app-network
 
 networks:
   app-network:
-    driver: bridge           # Red compartida entre los servicios
+    driver: bridge # Red compartida entre los servicios
