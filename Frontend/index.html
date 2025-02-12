@@ -138,8 +138,10 @@
     async function getResultExpenses(data) {
       const resultExpenses = await fetch(URL, {
         method: 'POST',
+        mode: '',
         headers: {
           "Content-Type": "application/json",
+          'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(data),
       })
