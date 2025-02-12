@@ -1,5 +1,5 @@
 # Usar una imagen base de Python
-FROM python:3.9-slim
+FROM python:3.12.9-slim
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /
@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Exponer el puerto en el que corre la API
-EXPOSE 3000
+EXPOSE 5000
 
 # Comando para ejecutar la API
-CMD ["flask", "run", "--host", "0.0.0.0"]
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "5000"]
