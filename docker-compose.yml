@@ -6,6 +6,8 @@ services:
       - ./frontend:/usr/share/nginx/html
     ports:
       - 5500:5500
+    networks:
+      - app-network # Los servicios estarán en la misma red
   python-api:
     build:
       context: ./ML # Ruta donde se encuentra el Dockerfile para Python
