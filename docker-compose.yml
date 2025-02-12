@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  python-api:
+    build:
+      context: ./ML  # Ruta donde se encuentra el Dockerfile para Python
+    ports:
+      - "3000:3000"          # Mapea el puerto del host al contenedor
+    depends_on:
+      - php-app              # Define que este servicio depende del de PHP
+    networks:
+      - app-network          # Ambos servicios estarán en la misma red
+
+  php-app:
+    build:
+      context: ./api   # Ruta donde se encuentra el Dockerfile para PHP
+    ports:
+      - "8080:8080"          # Mapea el puerto del host al contenedor
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge           # Red compartida entre los servicios
