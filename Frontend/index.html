@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Microservices</title>
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: white;
+      background-color: #222;
+    }
+
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    .form__wrapper {
+      width: 100%;
+    }
+
+    form {
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+
+      & span {
+        font-size: 2.25rem;
+      }
+
+      & input {
+        font-size: 1.25rem;
+        padding: .5rem 1rem;
+        border: 0;
+        border-radius: .5em;
+        width: 100%;
+        margin-block-start: 1em;
+        outline: 4px solid hsl(203, 30%, 26%);
+      }
+    }
+
+    input:not(:placeholder-shown):valid {
+        outline-color: rgb(81, 245, 81);
+    }
+
+    input:not(:placeholder-shown):invalid {
+      outline-color: rgb(185, 86, 86);
+    }
+
+    input:focus:invalid {
+      outline-color: rgb(185, 86, 86);
+    }
+
+    button {
+      width: max-content;
+      margin-block-start: 1.5em;
+      font-size: 1rem;
+      border: 1px solid white;
+      display: inline-block;
+      background-color: transparent;
+      padding: .75em 1em;
+      border-radius: .5em;
+      cursor: pointer;
+      color: white;
+      transition: all ease-in 200ms;
+
+      &:hover {
+        background-color: rgb(64, 37, 126);
+        border-color: rgb(68, 68, 226);
+      }
+    }
+
+    .results {
+      margin-block-start: 2em;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .result__text {
+      font-size: 2rem;
+      padding: 1rem 1.75rem;
+      border: 5px dotted transparent;
+    }
+
+    .good {
+      border-color: rgb(81, 245, 81);
+    }
+
+    .bad {
+      border-color: rgb(185, 86, 86);;
+    }
+
+  </style>
+</head>
+<body>
+  <div>
+    <main>
+      <section class="form__wrapper">
+        <form action="">
+          <label for="expenses">
+            <span>Tus gastos al mes: </span>
+            <input type="number" max="90000" min="100" name="expenses" id="expenses" autofocus placeholder="8000">
+          </label>
+          <button>Enviar</button>
+        </form>
+      </section>
+
+      <section class="results">
+        <p class="result__text"></p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const formEl = document.querySelector('form')
+    const resultEl = document.querySelector('.result__text')
+    const URL = 'http://127.0.0.1:Backend'
+
+    formEl.addEventListener('submit', handleSubmit)
+
+    async function getResultExpenses(data) {
+      const resultExpenses = await fetch(URL, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      const expenses = await resultExpenses.json();
+      return expenses;
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault()
+      const data = Object.fromEntries(new FormData(e.target))
+      console.log(data)
+      // Assign
+      const resultExpenses = await getResultExpenses(data)
+      // resultEl.textContent = ''
+      // if(resultExpenses === 1) {
+      //   resultEl.classList.add('good')
+      // } else {
+      //   resultEl.classList.add('bad')
+      // }
+    }
+
+
+
+  </script>
+</body>
+</html>
