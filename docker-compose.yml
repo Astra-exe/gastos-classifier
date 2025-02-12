@@ -4,7 +4,7 @@ services:
     build:
       context: ./ML  # Ruta donde se encuentra el Dockerfile para Python
     ports:
-      - "3000:3000"          # Mapea el puerto del host al contenedor
+      - "5000:5000"          # Mapea el puerto del host al contenedor
     depends_on:
       - php-app              # Define que este servicio depende del de PHP
     networks:
