@@ -6,7 +6,8 @@ require __DIR__.'/../vendor/autoload.php';
 $app = \Flight::app();
 
 $app->before('start', static function() use ($app) {
-  $app->response()->header('X-Frame-Options', '*');
+  $app->response()->header('Access-Control-Allow-Origin', '*');
+  $app->response()->header('Content-Type', 'application/json');
 });
 
 // Crea una instancia del enrutador.
