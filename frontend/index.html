@@ -138,13 +138,15 @@
     async function getResultExpenses(data) {
       const resultExpenses = await fetch(URL, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           "Content-Type": "application/json",
           'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify(data),
       })
+      if (!resultExpenses.ok) {
+        throw new Error('Network response was not ok');
+      }
       const expenses = await resultExpenses.json();
       return expenses;
     }
