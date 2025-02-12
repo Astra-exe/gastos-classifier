@@ -11,7 +11,7 @@ class ExpenseController extends BaseController
         $data = $this->app->request()->data['expenses'] ?? null;
 
         try {
-            $response = \WpOrg\Requests\Requests::post('http://0.0.0.0:3000/classify', [], ['expenses' => $data]);
+            $response = \WpOrg\Requests\Requests::post('http://0.0.0.0:5000/classify', [], ['expenses' => $data]);
         } catch (Exception $e) {
             return $this->app->json(['error' => $e->getMessage()]);
         }
