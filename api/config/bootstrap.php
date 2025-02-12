@@ -5,6 +5,10 @@ require __DIR__.'/../vendor/autoload.php';
 // Crea una instancia del framework.
 $app = \Flight::app();
 
+$app->before('start', static function() use ($app) {
+  $app->response()->header('X-Frame-Options', '*');
+});
+
 // Crea una instancia del enrutador.
 $router = $app->router();
 
