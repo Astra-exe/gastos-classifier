@@ -131,7 +131,7 @@
   <script>
     const formEl = document.querySelector('form')
     const resultEl = document.querySelector('.result__text')
-    const URL = 'http://127.0.0.1:Backend'
+    const URL = 'http://127.0.0.1:8080/expenses'
 
     formEl.addEventListener('submit', handleSubmit)
 
@@ -153,12 +153,13 @@
       console.log(data)
       // Assign
       const resultExpenses = await getResultExpenses(data)
-      // resultEl.textContent = ''
-      // if(resultExpenses === 1) {
-      //   resultEl.classList.add('good')
-      // } else {
-      //   resultEl.classList.add('bad')
-      // }
+      if(resultExpenses.type_expenses === 1) {
+        resultEl.textContent = 'Buenas finanzas'
+        resultEl.classList.add('good')
+      } else {
+        resultEl.textContent = resultExpenses.type_expenses
+        resultEl.classList.add('Malas finanzas')
+      }
     }
 
 
