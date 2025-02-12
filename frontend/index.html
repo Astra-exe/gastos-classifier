@@ -131,7 +131,7 @@
   <script>
     const formEl = document.querySelector('form')
     const resultEl = document.querySelector('.result__text')
-    const URL = 'http://127.0.0.1:5000/classify'
+    const URL = 'http://127.0.0.1:8080/expenses'
 
     formEl.addEventListener('submit', handleSubmit)
 
@@ -141,6 +141,8 @@
         headers: {
           "Content-Type": "application/json",
           'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
         },
         body: JSON.stringify(data),
       })
@@ -157,6 +159,7 @@
       console.log(data)
       // Assign
       const resultExpenses = await getResultExpenses(data)
+      console.log(resultExpenses)
       if(resultExpenses.type_expenses === 1) {
         resultEl.textContent = 'Buenas finanzas'
         resultEl.classList.add('good')
