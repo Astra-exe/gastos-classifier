@@ -2,4 +2,4 @@
 FROM nginx:alpine
 
 # Copy the custom HTML file into the container
-COPY frontend/index.html /usr/share/nginx/html/index.html
+COPY ./index.html /usr/share/nginx/html/index.html
