@@ -7,5 +7,5 @@ declare(strict_types=1);
  */
 (static function () use ($router) {
     $router->get('/', \App\Controllers\HomeController::class.'->welcome');
-    $router->get('/expenses', \App\Controllers\ExpenseController::class.'->index');
+    $router->post('/expenses', \App\Controllers\ExpenseController::class.'->index');
 })();
