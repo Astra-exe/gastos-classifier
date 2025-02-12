@@ -11,6 +11,10 @@ app = Flask(__name__)
 CORS(app)
 
 #My API endpoints
+@app.route('/', methods=['GET'])
+def hello():
+    return {'saludo':'Holaaaa'}
+
 @app.route('/classify', methods=['POST'])
 def classify():
     try:
@@ -28,4 +32,4 @@ def classify():
 
 
 if __name__ == '__main__':
-    app.run(port=3000)
+    app.run(port=5000)
