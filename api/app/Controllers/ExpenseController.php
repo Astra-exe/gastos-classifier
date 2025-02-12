@@ -12,7 +12,7 @@ class ExpenseController extends BaseController
         $data = ['expenses' => $expenses];
 
         try {
-            $response = \WpOrg\Requests\Requests::post('http://127.0.0.1:5000/classify', [], json_encode($data));
+            $response = \WpOrg\Requests\Requests::post('http://python-api:5000/classify', [], json_encode($data));
             // $response = \WpOrg\Requests\Requests::get('http://127.0.0.1:5000/');
         } catch (Exception $e) {
             return $this->app->json(['error' => $e->getMessage()]);
