@@ -2,7 +2,7 @@
 FROM python:3.12.9-slim
 
 # Establecer el directorio de trabajo dentro del contenedor
-WORKDIR /
+WORKDIR /app
 
 # Copiar el archivo de dependencias
 COPY requirements.txt .
@@ -17,7 +17,7 @@ RUN apt-get update && \
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar el resto del código de la aplicación
-COPY . .
+COPY . /app/
 
 # Exponer el puerto en el que corre la API
 EXPOSE 5000

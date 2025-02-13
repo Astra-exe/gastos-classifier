@@ -5,13 +5,18 @@ services:
       context: ./frontend
     ports:
       - "5500:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html/
     networks:
       - app-network # Los servicios estarán en la misma red
+
   python-api:
     build:
       context: ./ML # Ruta donde se encuentra el Dockerfile para Python
     ports:
       - "5000:5000" # Mapea el puerto del host al contenedor
+    volumes:
+      - ./ML:/app/
     depends_on:
       - php-app # Define que este servicio depende del de PHP
     networks:
@@ -22,6 +27,8 @@ services:
       context: ./api # Ruta donde se encuentra el Dockerfile para PHP
     ports:
       - "8080:8080" # Mapea el puerto del host al contenedor
+    volumes:
+      - ./api:/var/www/html/
     networks:
       - app-network
 
