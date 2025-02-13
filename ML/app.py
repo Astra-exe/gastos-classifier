@@ -12,6 +12,10 @@ app = Flask(__name__)
 CORS(app)
 
 #My API endpoints
+@app.route('/greeting', methods=['GET'])
+def greeting():
+    return "<h1>Hola de nuevo 🐒</h1>"
+
 @app.route('/', methods=['GET'])
 def hello():
     headers = {
