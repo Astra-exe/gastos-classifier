@@ -29,6 +29,7 @@ services:
       - "8080:8080" # Mapea el puerto del host al contenedor
     volumes:
       - ./api:/var/www/html/
+      - /var/www/html/vendor
     networks:
       - app-network
 
