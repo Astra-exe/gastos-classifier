@@ -61,4 +61,4 @@ USER nextjs
 EXPOSE 3000
 
 # Run the Next.js app in production
-CMD ["node", "server.js"]
+CMD ["npm", "run", "dev"]
