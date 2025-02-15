@@ -16,49 +16,15 @@ RUN \
   fi
 
 FROM base AS dev
-
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
-# This will do the trick, use the corresponding env file for each environment.
-#COPY .env.development.sample .env.production
-#RUN npm run build
-
-
-# # Rebuild the source code only when needed
-FROM base AS builder
-WORKDIR /app
-# Copy node_modules from deps stage
-COPY --from=deps /app/node_modules ./node_modules
-# Copy source code
 COPY . .
 
 # Optionally disable telemetry if needed
 ENV NEXT_TELEMETRY_DISABLED 1
-# Build the Next.js app
-RUN npm run build
-
-# Production image, copy all the files and run next
-FROM base AS runner
-WORKDIR /app
-
-# Create a non-root user to run the app for security
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-
-# Copy necessary files from the builder stage
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-
-# Switch to non-root user for security
-USER nextjs
 
 # Expose the default port (Next.js runs on port 3000 by default)
 EXPOSE 3000
 
-# Run the Next.js app in production
+# Run the Next.js app in dev mode
 CMD ["npm", "run", "dev"]
