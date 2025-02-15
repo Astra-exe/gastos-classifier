@@ -1,14 +1,20 @@
 version: "3.8"
 services:
-  web:
+  nextjs:
     build:
-      context: ./frontend
+      context: ./my-app # Path to the directory containing your Dockerfile
     ports:
-      - "5500:80"
+      - "5500:3000" # Expose port 3000 (the default for Next.js)
     volumes:
-      - ./frontend:/usr/share/nginx/html/
+      - ./my-app:/app # Mount the code from the host to the container
+      - /app/node_modules # Avoid mounting node_modules
+    # Environment variable (optional if you want to set NODE_ENV)
+    environment:
+      - NODE_ENV=development
     networks:
-      - app-network # Los servicios estarán en la misma red
+      - app-network
+    # Restart policy (optional, depends on your deployment needs)
+    restart: unless-stopped
 
   python-api:
     build:
