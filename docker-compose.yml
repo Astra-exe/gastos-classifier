@@ -1,5 +1,18 @@
 version: "3.8"
 services:
+  mysql-db:
+    image: mysql:8.0
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+    ports:
+      - "$MYSQL_LOCAL_PORT:MYSQL_PORT"
+    networks:
+      - app-network
+    volumes:
+      - mysql-data:/var/lib/mysql
+
   nextjs:
     build:
       context: ./my-app # Path to the directory containing your Dockerfile
@@ -31,6 +44,10 @@ services:
   php-app:
     build:
       context: ./api # Ruta donde se encuentra el Dockerfile para PHP
+    depends_on:
+      - mysql-db
+    links:
+      - mysql-db
     ports:
       - "8080:8080" # Mapea el puerto del host al contenedor
     volumes:
