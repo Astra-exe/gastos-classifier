@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+  mysql-db:
+    image: mysql:8.0
+    env_file: ./.env  # Archivo de entorno para producción
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+    ports:
+      - "$MYSQL_LOCAL_PORT:$MYSQL_PORT"
+    networks:
+      - app-network
+    volumes:
+      - ./mysql-data:/var/lib/mysql  # Volumen para persistencia de datos
+    restart: unless-stopped  # Reiniciar automáticamente en caso de fallos
+
+  nextjs:
+    build:
+      context: ./my-app  # Ruta al directorio de Next.js
+      dockerfile: Docker/production/Dockerfile
+    ports:
+      - "5500:3000"  # Expone el puerto 3000 de Next.js
+    environment:
+      - NODE_ENV=production
+    networks:
+      - app-network
+    restart: unless-stopped  # Reiniciar automáticamente en caso de fallos
+
+  python-api:
+    build:
+      context: ./ML  # Ruta al directorio de Python
+      dockerfile: Docker/production/Dockerfile  # Ruta al Dockerfile de producción
+    ports:
+      - "5000:5000"  # Expone el puerto 5000 de Flask
+    environment:
+      - FLASK_ENV=production
+    depends_on:
+      - mysql-db
+    networks:
+      - app-network
+    restart: unless-stopped  # Reiniciar automáticamente en caso de fallos
+
+  php-app:
+    build:
+      context: ./api  # Ruta al directorio de PHP
+      dockerfile: Docker/production/Dockerfile
+    depends_on:
+      - mysql-db
+    ports:
+      - "8080:8080"  # Expone el puerto 8080 de PHP
+    environment:
+      - APP_ENV=production
+    networks:
+      - app-network
+    restart: unless-stopped  # Reiniciar automáticamente en caso de fallos
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:  # Volumen para persistencia de datos de MySQL
