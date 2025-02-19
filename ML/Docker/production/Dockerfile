@@ -19,13 +19,13 @@ RUN apt-get update && \
     && rm -rf /var/lib/apt/lists/*
 
 # Copiar el archivo de dependencias
-COPY ../../requirements.txt .
+COPY requirements.txt .
 
 # Instalar las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar el resto del código de la aplicación
-COPY ../../ /app/
+COPY . /app/
 
 # Exponer el puerto en el que corre la API
 EXPOSE 5000

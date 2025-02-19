@@ -5,7 +5,7 @@ FROM python:3.12.9-slim
 WORKDIR /app
 
 # Copiar el archivo de dependencias
-COPY ../../requirements.txt .
+COPY requirements.txt .
 
 # Instalar dependencias del sistema (necesarias para algunas bibliotecas como scipy y pandas)
 RUN apt-get update && \
@@ -20,7 +20,7 @@ RUN apt-get update && \
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copiar el resto del código de la aplicación
-COPY ../../ /app/
+COPY . /app/
 
 # Exponer el puerto en el que corre la API
 EXPOSE 5000
