@@ -32,6 +32,7 @@ services:
   python-api:
     build:
       context: ./ML # Ruta donde se encuentra el Dockerfile para Python
+      dockerfile: Docker/development/Dockerfile
     ports:
       - "5000:5000" # Mapea el puerto del host al contenedor
     volumes:
