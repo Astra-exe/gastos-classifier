@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_mysqldb import MySQL
 import requests
 import numpy as np
 import joblib
@@ -9,9 +10,29 @@ model = joblib.load('gastos_classifier.pkl')
 
 #Create my flask app
 app = Flask(__name__)
+app.config['MYSQL_HOST'] = 'mysql-db'  # Replace with your MySQL host
+app.config['MYSQL_PASSWORD'] = '123'  # Replace with your MySQL password
+app.config['MYSQL_DB'] = 'mydb'  # Replace with your MySQL database
 CORS(app)
 
+# Initialize MySQL
+mysql = MySQL(app)
+
 #My API endpoints
+@app.route('/db', methods=['GET'])
+def test_db():
+    cur = mysql.connection.cursor()
+
+    # Query the database
+    cur.execute('SELECT VERSION()')
+    result = cur.fetchall()
+
+    # Close the cursor
+    cur.close()
+
+    # Return results as JSON
+    return jsonify(result)
+
 @app.route('/greeting', methods=['GET'])
 def greeting():
     return "<h1>Hola de nuevo mono 🐒</h1>"

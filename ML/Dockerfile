@@ -9,9 +9,12 @@ COPY requirements.txt .
 
 # Instalar dependencias del sistema (necesarias para algunas bibliotecas como scipy y pandas)
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc python3-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends \
+    gcc \
+    default-libmysqlclient-dev \
+    pkg-config \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Instalar las dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
