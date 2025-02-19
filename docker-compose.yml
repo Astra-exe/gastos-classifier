@@ -16,6 +16,7 @@ services:
   nextjs:
     build:
       context: ./my-app # Path to the directory containing your Dockerfile
+      dockerfile: Docker/development/Dockerfile
     ports:
       - "5500:3000" # Expose port 3000 (the default for Next.js)
     volumes:
