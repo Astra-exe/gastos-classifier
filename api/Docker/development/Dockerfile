@@ -32,7 +32,7 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 RUN sed -i 's/80/8080/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
 
 # Copiar el código del proyecto al contenedor
-COPY . /var/www/html/
+COPY ../../ /var/www/html/
 
 # Instalar las dependencias de producción con Composer
 WORKDIR /var/www/html

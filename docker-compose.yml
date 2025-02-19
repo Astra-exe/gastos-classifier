@@ -45,6 +45,7 @@ services:
   php-app:
     build:
       context: ./api # Ruta donde se encuentra el Dockerfile para PHP
+      dockerfile: Docker/development/Dockerfile
     depends_on:
       - mysql-db
     links:
